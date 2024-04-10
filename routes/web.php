@@ -15,4 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
-});
+})->middleware(['auth.success'])->name('login');
+
+Route::get('/member', function () {
+    return view('member');
+})->middleware(['auth.false'])->name('member');
+
+Route::get('/review', function () {
+    return view('account_review');
+})->middleware(['auth.false'])->name('review');
