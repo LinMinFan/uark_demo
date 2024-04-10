@@ -12,15 +12,21 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'users';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
+        'org_id',
         'name',
+        'account',
         'email',
         'password',
+        'birthday',
+        'status',
     ];
 
     /**
@@ -42,4 +48,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function org()
+    {
+        return $this->belongsTo(Org::class, 'org_id');
+    }
+
+    public function applyFile()
+    {
+        return $this->hasOne(ApplyFile::class, 'user_id');
+    }
+
 }
