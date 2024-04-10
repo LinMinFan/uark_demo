@@ -5,7 +5,7 @@
     <meta name="_token" content="{{csrf_token()}}">
     @stack('meta')
     <link rel="canonical" href="{{url()->current()}}">
-
+    <link rel="icon" href="#">
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet">
 
