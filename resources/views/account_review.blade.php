@@ -10,6 +10,8 @@
 
 <h1>審核中</h1>
 
+<a href="{{route('logout')}}" class="btn btn-success">登出</a>
+
 @endsection
 
 @push('js')

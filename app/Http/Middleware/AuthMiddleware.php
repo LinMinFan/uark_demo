@@ -17,8 +17,14 @@ class AuthMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
+        $user = Auth::user();
+
         if (Auth::check()) {
-            return redirect()->route('member');
+            if ($user->status == 0) {
+                return redirect()->route('review');
+            }else {
+                return redirect()->route('member');
+            }
         }
 
         return $next($request);

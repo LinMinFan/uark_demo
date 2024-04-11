@@ -10,6 +10,7 @@
     <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet">
 
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('css/global.css')}}" rel="stylesheet">
 
     @stack('css')
 

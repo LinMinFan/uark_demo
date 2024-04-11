@@ -1,0 +1,40 @@
+.notice-error{
+    color:#c44037;
+    text-align:center;
+    font-family:Noto Serif TC !important;
+    font-size:1.313em;
+    font-weight:700;
+    margin-bottom:40px
+}
+
+.notice-success{
+    color:#169635;
+    text-align:center;
+    font-family:Noto Serif TC !important;
+    font-size:1.313em;
+    font-weight:700;
+    margin-bottom:40px
+}
+
+@media screen and (max-width: 1024px)
+{
+    .notice-error{font-size:1.125em}
+    .notice-success{font-size:1.125em}
+}
+
+.acc-color{
+    color:#38322c
+}
+
+.result-text{
+    margin-top:50px;
+    color:#c44037
+}
+
+.display{
+    display:none
+}
+
+.color-g{
+    color:#169635
+}

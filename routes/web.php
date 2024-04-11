@@ -13,14 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->middleware(['auth.success'])->name('login');
+Route::group(['middleware' => 'auth.success'], function () {
+    Route::get('/', function () {
+        return view('index');
+    })->name('get_login');
+});
 
-Route::get('/member', function () {
-    return view('member');
-})->middleware(['auth.false'])->name('member');
+Route::post('login', 'App\Http\Controllers\UserController@postLogin')->name('login');
+Route::get('logout', 'App\Http\Controllers\UserController@getLogout')->name('logout');
 
-Route::get('/review', function () {
-    return view('account_review');
-})->middleware(['auth.false'])->name('review');
+Route::group(['middleware' => 'auth.false'], function () {
+    Route::get('/member', 'App\Http\Controllers\UserController@getCheckStatus')->name('member');
+    Route::get('/review', 'App\Http\Controllers\UserController@getCheckStatus')->name('review');
+});

@@ -10,6 +10,8 @@
 
 <h1>登入成功</h1>
 
+<a href="{{route('logout')}}" class="btn btn-success">登出</a>
+
 @endsection
 
 @push('js')

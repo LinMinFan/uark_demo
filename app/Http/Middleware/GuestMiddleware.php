@@ -18,7 +18,7 @@ class GuestMiddleware
     {
 
         if (!Auth::check()) {
-            return redirect()->route('login');
+            return redirect()->route('get_login');
         }
 
         return $next($request);
