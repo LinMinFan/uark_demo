@@ -15,5 +15,5 @@
 @endsection
 
 @push('js')
-    
+    <script defer src="{{asset('js/account_review.js')}}"></script>
 @endpush

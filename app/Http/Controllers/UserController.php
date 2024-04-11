@@ -10,10 +10,16 @@ use App\Models\User;
 use App\Models\Org;
 use App\Models\ApplyFile;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 
 class UserController extends Controller
 {
     
+    public function index ()
+    {
+        return view('index');
+    }
+
     public function postLogin (LoginRequest $request)
     {
 
@@ -56,6 +62,20 @@ class UserController extends Controller
         }else {
             return view('member');
         }
+    }
+
+    public function getRegister()
+    {
+        $user = Auth::user();
+
+        return view('get_register');
+    }
+
+    public function postRegister(RegisterRequest $request)
+    {
+       
+
+        return redirect()->route('get_login')->withSuccess('帳號註冊完成 歡迎登入');
     }
 
 }

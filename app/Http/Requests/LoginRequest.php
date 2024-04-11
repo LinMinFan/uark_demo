@@ -36,11 +36,11 @@ class LoginRequest extends Request
     }
 
     public function messages()
-{
-    return [
-        'account.required' => '請輸入帳號',
-        'password.required' => '請輸入密碼',
-    ];
-}
+    {
+        return [
+            'account.required' => '請輸入帳號',
+            'password.required' => '請輸入密碼',
+        ];
+    }
 
 }
