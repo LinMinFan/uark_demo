@@ -15,12 +15,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth.success'], function () {
     Route::get('/', 'App\Http\Controllers\UserController@index')->name('get_login');
-    Route::get('register', 'App\Http\Controllers\UserController@getRegister')->name('get_register');
+    Route::get('/register', 'App\Http\Controllers\UserController@getRegister')->name('get_register');
 });
 
-Route::post('login', 'App\Http\Controllers\UserController@postLogin')->name('login');
-Route::get('logout', 'App\Http\Controllers\UserController@getLogout')->name('logout');
-Route::post('register', 'App\Http\Controllers\UserController@postRegister')->name('post_register');
+Route::post('/login', 'App\Http\Controllers\UserController@postLogin')->name('login');
+Route::get('/logout', 'App\Http\Controllers\UserController@getLogout')->name('logout');
+Route::post('/register', 'App\Http\Controllers\UserController@postRegister')->name('post_register');
+Route::post('/create_org', 'App\Http\Controllers\OrgController@create_org')->name('create_org');
 
 Route::group(['middleware' => 'auth.false'], function () {
     Route::get('/member', 'App\Http\Controllers\UserController@getCheckStatus')->name('member');

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Carbon;
 
 use App\Models\User;
 use App\Models\Org;
@@ -66,15 +68,75 @@ class UserController extends Controller
 
     public function getRegister()
     {
-        $user = Auth::user();
+        $orgs = Org::all();
 
-        return view('get_register');
+        return view('get_register',compact('orgs'));
     }
 
     public function postRegister(RegisterRequest $request)
     {
-       
+        
+        if ($request->hasFile('apply_file')) {
+            $apply_file = $request->file('apply_file');
+            $extension = pathinfo($apply_file->getClientOriginalName(), PATHINFO_EXTENSION);
+            $fileName = Carbon::now()->format('YmdHis').$extension;
+            $fileName = mb_strtolower($fileName);
+            $apply_file->storeAs('public/upload', $fileName);
+            $file_path = 'upload/'.$fileName;
+        } else {
+            return redirect()->back()->with('error','請選擇上傳檔案');
+        }
 
+        $validated = $request->validated();
+
+        $org = Org::where('org_no',$validated['org_no'])->first();
+
+        if ($org) {
+            $org_id = $org->id;
+        } else {
+            return redirect()->back()->with('error','單位號碼不存在');
+        }
+
+        $user_data = [
+            'account' => $validated['account'],
+            'name' => $validated['name'],
+            'password' => $validated['password'],
+            'email' => $validated['email'],
+            'org_id' => $org_id,
+            'birthday' => $request->birthday??null,
+            'status' => 0,
+        ];
+        
+        $user_data['password'] = Hash::make($user_data['password']);
+
+        DB::beginTransaction();
+
+        try {
+
+            $existingUsers = User::where('account', $user_data['account'])
+                ->orWhere('email', $validated['email'])
+                ->get();
+                
+            if ($existingUsers->count() > 0) {
+                throw new \Exception("帳號或郵件已存在");
+            }else {
+                $user = new User($user_data);
+                $applyFile = new ApplyFile([
+                    'file_path' => $file_path,
+                ]);
+                
+                $user->save();
+                $user->applyFile()->save($applyFile);
+            }
+    
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $type = 'error';
+            $message = $e->getMessage();
+            return redirect()->back()->with($type, $message);
+        }
+        
         return redirect()->route('get_login')->withSuccess('帳號註冊完成 歡迎登入');
     }
 
